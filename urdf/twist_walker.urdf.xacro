@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+  Simulation wrapper around the original robot description.
+  Layer 1: twist_2_0.urdf          -> links, joints, meshes (untouched CAD export)
+  Layer 2: ros2_control block      -> tells Gazebo which joints we command (position) and read
+  Layer 3: gz_ros2_control plugin  -> runs the controller_manager inside Gazebo
+-->
+<robot name="twist_2_0" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find twist_walker)/urdf/twist_2_0.urdf"/>
+
+  <xacro:macro name="pos_joint" params="name">
+    <joint name="${name}">
+      <command_interface name="position"/>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="leg" params="prefix">
+    <xacro:pos_joint name="${prefix}_hip_yaw"/>
+    <xacro:pos_joint name="${prefix}_hip_pitch"/>
+    <xacro:pos_joint name="${prefix}_knee"/>
+  </xacro:macro>
+
+  <ros2_control name="TwistGzSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <xacro:leg prefix="FL"/>
+    <xacro:leg prefix="FR"/>
+    <xacro:leg prefix="RL"/>
+    <xacro:leg prefix="RR"/>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find twist_walker)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>

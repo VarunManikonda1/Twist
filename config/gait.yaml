@@ -1,0 +1,32 @@
+gait_node:
+  ros__parameters:
+    use_sim_time: true
+
+    # Must match leg_controller joints in controllers.yaml (same order)
+    joints: [FL_hip_yaw, FL_hip_pitch, FL_knee,
+             FR_hip_yaw, FR_hip_pitch, FR_knee,
+             RL_hip_yaw, RL_hip_pitch, RL_knee,
+             RR_hip_yaw, RR_hip_pitch, RR_knee]
+
+    # ---- Standing posture (metres, in base_link frame) ----
+    stand_height: 0.12      # how far the feet sit below base_link
+    stance_out: 0.095       # how far each foot sits outward from its hip_yaw joint
+
+    # ---- Trot gait ----
+    period: 0.8             # seconds for one full cycle (each diagonal pair steps once)
+    step_height: 0.02       # foot lift during swing
+    max_step: 0.05          # max foot travel per half-cycle (limits stride length)
+
+    # ---- Velocity command limits (/cmd_vel) ----
+    max_vx: 0.12            # m/s
+    max_vy: 0.08            # m/s
+    max_wz: 0.6             # rad/s
+    cmd_smoothing: 0.3      # s, low-pass time constant on /cmd_vel
+    cmd_timeout: 0.5        # s, stop if no /cmd_vel for this long
+
+    # ---- Misc ----
+    rate: 50.0              # Hz, how often joint targets are sent
+    startup_time: 2.0       # s, blend from spawn pose into the stand
+    # IK starting guess (hip_pitch, knee) that selects the knee-bent branch
+    seed_hip_pitch: -0.6
+    seed_knee: 0.2
