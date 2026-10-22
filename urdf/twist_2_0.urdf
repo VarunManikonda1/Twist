@@ -1,365 +1,496 @@
 <?xml version="1.0"?>
 <!-- Twist 2.0 quadruped (12x Feetech STS3215). Generated from Twist-2.0.iam by scripts/export_urdf.py.
-     X forward (ESP32 ports side), Y left, Z up. Zero joint angles = CAD pose. -->
+     X forward = head (U-cut in the top plate), Y left, Z up. Zero joint angles = CAD pose.
+     Joint constraints: <limit> = mechanical collision-free range (each joint alone, 3 deg margin);
+     <safety_controller> soft limits = recommended working range, collision-free with all three
+     leg joints at their extremes together. Command the robot inside the soft limits. -->
 <robot name="twist_2_0">
   <material name="aluminium"><color rgba="0.8 0.81 0.83 1"/></material>
   <material name="servo"><color rgba="0.08 0.08 0.08 1"/></material>
   <material name="board"><color rgba="0.05 0.35 0.15 1"/></material>
   <material name="foot"><color rgba="0.93 0.93 0.93 1"/></material>
   <material name="standoff"><color rgba="0.8 0.65 0.3 1"/></material>
+  <material name="plug"><color rgba="0.85 0.8 0.7 1"/></material>
+  <material name="spacer"><color rgba="0.2 0.45 0.85 1"/></material>
   <link name="base_link">
     <inertial>
-      <origin xyz="0.00162654 0.000882172 -0.000556447" rpy="0 0 0"/>
-      <mass value="0.39049"/>
-      <inertia ixx="1.4682e-03" ixy="2.8430e-06" ixz="1.8919e-06" iyy="1.5041e-03" iyz="-4.4886e-06" izz="2.8580e-03"/>
+      <origin xyz="-0.000854272 0.00157116 -0.00122145" rpy="0 0 0"/>
+      <mass value="0.40384"/>
+      <inertia ixx="1.5767e-03" ixy="-2.7463e-06" ixz="4.7075e-06" iyy="1.5408e-03" iyz="1.4569e-06" izz="2.9927e-03"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/base_link_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/base_link_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/base_link_board.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/base_link_board.stl"/></geometry>
       <material name="board"/>
     </visual>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/base_link_standoff.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/base_link_standoff.stl"/></geometry>
       <material name="standoff"/>
     </visual>
     <visual>
-      <origin xyz="0.0810867 0.0810867 0" rpy="1.5708 0 -2.35619"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/base_link_plug.stl"/></geometry>
+      <material name="plug"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0810867 0.0810867 0" rpy="1.5708 0 -0.785398"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
+      <material name="servo"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0810867 -0.0810867 0" rpy="1.5708 0 2.35619"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <visual>
       <origin xyz="-0.0810867 -0.0810867 0" rpy="1.5708 0 0.785398"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <visual>
-      <origin xyz="-0.0810867 0.0810867 0" rpy="1.5708 0 -0.785398"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
-      <material name="servo"/>
-    </visual>
-    <visual>
-      <origin xyz="0.0809099 -0.0809099 0" rpy="1.5708 0 2.35619"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <origin xyz="0.0809099 0.0809099 0" rpy="1.5708 0 -2.35619"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <collision name="Twist_Bottom">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_0.stl"/></geometry>
     </collision>
     <collision name="Twist_Top">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_1.stl"/></geometry>
     </collision>
     <collision name="ESP32mP4mModulemDEVmKIT">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_2.stl"/></geometry>
     </collision>
     <collision name="Standoff_1">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_3.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_3.stl"/></geometry>
     </collision>
     <collision name="Standoff_2">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_4.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_4.stl"/></geometry>
     </collision>
     <collision name="Standoff_3">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_5.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_5.stl"/></geometry>
     </collision>
     <collision name="Standoff_4">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_6.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_6.stl"/></geometry>
     </collision>
-    <collision name="STS3215_HipYaw_pXmZ">
+    <collision name="STS3215_HipYaw_RL">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_7.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_7.stl"/></geometry>
     </collision>
-    <collision name="STS3215_HipYaw_mXpZ">
+    <collision name="Cable_HipYaw_RL">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_8.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_8.stl"/></geometry>
     </collision>
-    <collision name="STS3215_HipYaw_mXmZ">
+    <collision name="STS3215_HipYaw_FR">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_9.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_9.stl"/></geometry>
     </collision>
-    <collision name="STS3215_HipYaw_pXpZ">
+    <collision name="Cable_HipYaw_FR">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/base_link_10.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_10.stl"/></geometry>
+    </collision>
+    <collision name="STS3215_HipYaw_RR">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_11.stl"/></geometry>
+    </collision>
+    <collision name="Cable_HipYaw_RR">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_12.stl"/></geometry>
+    </collision>
+    <collision name="STS3215_HipYaw_FL">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_13.stl"/></geometry>
+    </collision>
+    <collision name="Cable_HipYaw_FL">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/base_link_14.stl"/></geometry>
     </collision>
   </link>
   <link name="FL_hip">
     <inertial>
-      <origin xyz="0.0143519 0.0139324 0.000296641" rpy="0 0 0"/>
-      <mass value="0.01460"/>
-      <inertia ixx="4.4818e-06" ixy="-3.3107e-09" ixz="2.6008e-08" iyy="4.5528e-06" iyz="2.4191e-08" izz="4.5206e-06"/>
+      <origin xyz="0.0116093 0.0166749 -0.00358194" rpy="0 0 0"/>
+      <mass value="0.01994"/>
+      <inertia ixx="9.2944e-06" ixy="1.1357e-07" ixz="-5.8079e-07" iyy="7.1399e-06" iyz="-9.4267e-07" izz="8.1036e-06"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FL_hip_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_hip_aluminium.stl"/></geometry>
       <material name="aluminium"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_hip_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="Holder_HipYaw">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_hip_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_hip_0.stl"/></geometry>
     </collision>
     <collision name="Holder_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_hip_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_hip_1.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipYaw">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_hip_2.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_hip_3.stl"/></geometry>
     </collision>
   </link>
   <link name="FL_thigh">
     <inertial>
-      <origin xyz="0.0199038 0.0185962 0.0272236" rpy="0 0 0"/>
-      <mass value="0.11726"/>
-      <inertia ixx="8.3916e-05" ixy="-2.0373e-05" ixz="-3.2580e-05" iyy="8.3916e-05" iyz="-3.2580e-05" izz="6.3529e-05"/>
+      <origin xyz="0.0189992 0.0195008 0.0272236" rpy="0 0 0"/>
+      <mass value="0.12481"/>
+      <inertia ixx="8.9071e-05" ixy="-1.9952e-05" ixz="-3.4088e-05" iyy="8.9071e-05" iyz="-3.4088e-05" izz="6.9105e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FL_thigh_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_thigh_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
-      <origin xyz="0 0 0" rpy="3.14159 -0.785398 0.785398"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_thigh_plug.stl"/></geometry>
+      <material name="plug"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="-3.14159 -0.785398 0.785398"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <visual>
       <origin xyz="0.0385 0.0385 0.0544472" rpy="0 0.785398 -2.35619"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <collision name="THIGH_STS3215_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_thigh_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_thigh_0.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Front">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_thigh_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_thigh_1.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Back">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_thigh_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_thigh_2.stl"/></geometry>
     </collision>
     <collision name="THIGH_STS3215_Knee">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_thigh_3.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_thigh_3.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_thigh_4.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_thigh_5.stl"/></geometry>
     </collision>
   </link>
   <link name="FL_shin">
     <inertial>
-      <origin xyz="0.0147172 0.0124724 -0.0717522" rpy="0 0 0"/>
-      <mass value="0.03421"/>
-      <inertia ixx="6.0166e-05" ixy="4.0948e-06" ixz="1.0008e-05" iyy="6.0524e-05" iyz="9.0503e-06" izz="1.7757e-05"/>
+      <origin xyz="0.0113278 0.0145833 -0.0683783" rpy="0 0 0"/>
+      <mass value="0.03688"/>
+      <inertia ixx="7.2223e-05" ixy="6.4598e-06" ixz="1.5063e-05" iyy="7.4975e-05" iyz="7.7873e-06" izz="2.4087e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FL_shin_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_shin_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FL_shin_foot.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_shin_foot.stl"/></geometry>
       <material name="foot"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FL_shin_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="SHIN_Shin_Horn">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_shin_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_shin_0.stl"/></geometry>
     </collision>
     <collision name="SHIN_Shin_Idler">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_shin_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_shin_1.stl"/></geometry>
     </collision>
     <collision name="SHIN_Foot">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FL_shin_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_shin_2.stl"/></geometry>
+    </collision>
+    <collision name="SHIN_Spacer_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FL_shin_3.stl"/></geometry>
     </collision>
     <collision name="foot_tip">
-      <origin xyz="0.0254439 0.0223142 -0.131914" rpy="0 0 0"/>
+      <origin xyz="0.0258498 0.0219084 -0.131914" rpy="0 0 0"/>
       <geometry><sphere radius="0.0075"/></geometry>
     </collision>
   </link>
   <link name="FR_hip">
     <inertial>
-      <origin xyz="0.0139324 -0.0143519 0.000296641" rpy="0 0 0"/>
-      <mass value="0.01460"/>
-      <inertia ixx="4.5528e-06" ixy="3.3107e-09" ixz="2.4191e-08" iyy="4.4818e-06" iyz="-2.6008e-08" izz="4.5206e-06"/>
+      <origin xyz="0.0166749 -0.0116093 -0.00358194" rpy="0 0 0"/>
+      <mass value="0.01994"/>
+      <inertia ixx="7.1399e-06" ixy="-1.1357e-07" ixz="-9.4267e-07" iyy="9.2944e-06" iyz="5.8079e-07" izz="8.1036e-06"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FR_hip_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_hip_aluminium.stl"/></geometry>
       <material name="aluminium"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_hip_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="Holder_HipYaw">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_hip_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_hip_0.stl"/></geometry>
     </collision>
     <collision name="Holder_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_hip_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_hip_1.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipYaw">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_hip_2.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_hip_3.stl"/></geometry>
     </collision>
   </link>
   <link name="FR_thigh">
     <inertial>
-      <origin xyz="0.0185962 -0.0199038 0.0272236" rpy="0 0 0"/>
-      <mass value="0.11726"/>
-      <inertia ixx="8.3916e-05" ixy="2.0373e-05" ixz="-3.2580e-05" iyy="8.3916e-05" iyz="3.2580e-05" izz="6.3529e-05"/>
+      <origin xyz="0.0195008 -0.0189992 0.0272236" rpy="0 0 0"/>
+      <mass value="0.12481"/>
+      <inertia ixx="8.9071e-05" ixy="1.9952e-05" ixz="-3.4088e-05" iyy="8.9071e-05" iyz="3.4088e-05" izz="6.9105e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FR_thigh_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_thigh_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
-      <origin xyz="0 0 0" rpy="-3.14159 -0.785398 -0.785398"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_thigh_plug.stl"/></geometry>
+      <material name="plug"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="3.14159 -0.785398 -0.785398"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <visual>
       <origin xyz="0.0385 -0.0385 0.0544472" rpy="0 0.785398 2.35619"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <collision name="THIGH_STS3215_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_thigh_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_thigh_0.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Front">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_thigh_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_thigh_1.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Back">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_thigh_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_thigh_2.stl"/></geometry>
     </collision>
     <collision name="THIGH_STS3215_Knee">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_thigh_3.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_thigh_3.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_thigh_4.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_thigh_5.stl"/></geometry>
     </collision>
   </link>
   <link name="FR_shin">
     <inertial>
-      <origin xyz="0.0124724 -0.0147172 -0.0717522" rpy="0 0 0"/>
-      <mass value="0.03421"/>
-      <inertia ixx="6.0524e-05" ixy="-4.0948e-06" ixz="9.0503e-06" iyy="6.0166e-05" iyz="-1.0008e-05" izz="1.7757e-05"/>
+      <origin xyz="0.0145833 -0.0113278 -0.0683783" rpy="0 0 0"/>
+      <mass value="0.03688"/>
+      <inertia ixx="7.4975e-05" ixy="-6.4598e-06" ixz="7.7873e-06" iyy="7.2223e-05" iyz="-1.5063e-05" izz="2.4087e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FR_shin_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_shin_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/FR_shin_foot.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_shin_foot.stl"/></geometry>
       <material name="foot"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/FR_shin_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="SHIN_Shin_Horn">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_shin_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_shin_0.stl"/></geometry>
     </collision>
     <collision name="SHIN_Shin_Idler">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_shin_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_shin_1.stl"/></geometry>
     </collision>
     <collision name="SHIN_Foot">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/FR_shin_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_shin_2.stl"/></geometry>
+    </collision>
+    <collision name="SHIN_Spacer_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/FR_shin_3.stl"/></geometry>
     </collision>
     <collision name="foot_tip">
-      <origin xyz="0.0219084 -0.0258498 -0.131914" rpy="0 0 0"/>
+      <origin xyz="0.0223142 -0.0254439 -0.131914" rpy="0 0 0"/>
       <geometry><sphere radius="0.0075"/></geometry>
     </collision>
   </link>
   <link name="RL_hip">
     <inertial>
-      <origin xyz="-0.0139324 0.0143519 0.000296641" rpy="0 0 0"/>
-      <mass value="0.01460"/>
-      <inertia ixx="4.5528e-06" ixy="3.3107e-09" ixz="-2.4191e-08" iyy="4.4818e-06" iyz="2.6008e-08" izz="4.5206e-06"/>
+      <origin xyz="-0.0166749 0.0116093 -0.00358194" rpy="0 0 0"/>
+      <mass value="0.01994"/>
+      <inertia ixx="7.1399e-06" ixy="-1.1357e-07" ixz="9.4267e-07" iyy="9.2944e-06" iyz="-5.8079e-07" izz="8.1036e-06"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RL_hip_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_hip_aluminium.stl"/></geometry>
       <material name="aluminium"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_hip_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="Holder_HipYaw">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_hip_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_hip_0.stl"/></geometry>
     </collision>
     <collision name="Holder_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_hip_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_hip_1.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipYaw">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_hip_2.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_hip_3.stl"/></geometry>
     </collision>
   </link>
   <link name="RL_thigh">
     <inertial>
-      <origin xyz="-0.0185962 0.0199038 0.0272236" rpy="0 0 0"/>
-      <mass value="0.11726"/>
-      <inertia ixx="8.3916e-05" ixy="2.0373e-05" ixz="3.2580e-05" iyy="8.3916e-05" iyz="-3.2580e-05" izz="6.3529e-05"/>
+      <origin xyz="-0.0195008 0.0189992 0.0272236" rpy="0 0 0"/>
+      <mass value="0.12481"/>
+      <inertia ixx="8.9071e-05" ixy="1.9952e-05" ixz="3.4088e-05" iyy="8.9071e-05" iyz="-3.4088e-05" izz="6.9105e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RL_thigh_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_thigh_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_thigh_plug.stl"/></geometry>
+      <material name="plug"/>
+    </visual>
+    <visual>
       <origin xyz="0 0 0" rpy="3.14159 -0.785398 2.35619"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <visual>
       <origin xyz="-0.0385 0.0385 0.0544472" rpy="0 0.785398 -0.785398"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <collision name="THIGH_STS3215_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_thigh_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_thigh_0.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Front">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_thigh_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_thigh_1.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Back">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_thigh_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_thigh_2.stl"/></geometry>
     </collision>
     <collision name="THIGH_STS3215_Knee">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_thigh_3.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_thigh_3.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_thigh_4.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_thigh_5.stl"/></geometry>
     </collision>
   </link>
   <link name="RL_shin">
     <inertial>
-      <origin xyz="-0.0124724 0.0147172 -0.0717522" rpy="0 0 0"/>
-      <mass value="0.03421"/>
-      <inertia ixx="6.0524e-05" ixy="-4.0948e-06" ixz="-9.0503e-06" iyy="6.0166e-05" iyz="1.0008e-05" izz="1.7757e-05"/>
+      <origin xyz="-0.0145833 0.0113278 -0.0683783" rpy="0 0 0"/>
+      <mass value="0.03688"/>
+      <inertia ixx="7.4975e-05" ixy="-6.4598e-06" ixz="-7.7873e-06" iyy="7.2223e-05" iyz="1.5063e-05" izz="2.4087e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RL_shin_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_shin_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RL_shin_foot.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_shin_foot.stl"/></geometry>
       <material name="foot"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RL_shin_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="SHIN_Shin_Horn">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_shin_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_shin_0.stl"/></geometry>
     </collision>
     <collision name="SHIN_Shin_Idler">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_shin_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_shin_1.stl"/></geometry>
     </collision>
     <collision name="SHIN_Foot">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RL_shin_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_shin_2.stl"/></geometry>
+    </collision>
+    <collision name="SHIN_Spacer_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RL_shin_3.stl"/></geometry>
     </collision>
     <collision name="foot_tip">
       <origin xyz="-0.0223142 0.0254439 -0.131914" rpy="0 0 0"/>
@@ -368,149 +499,137 @@
   </link>
   <link name="RR_hip">
     <inertial>
-      <origin xyz="-0.0143519 -0.0139324 0.000296641" rpy="0 0 0"/>
-      <mass value="0.01460"/>
-      <inertia ixx="4.4818e-06" ixy="-3.3107e-09" ixz="-2.6008e-08" iyy="4.5528e-06" iyz="-2.4191e-08" izz="4.5206e-06"/>
+      <origin xyz="-0.0116093 -0.0166749 -0.00358194" rpy="0 0 0"/>
+      <mass value="0.01994"/>
+      <inertia ixx="9.2944e-06" ixy="1.1357e-07" ixz="5.8079e-07" iyy="7.1399e-06" iyz="9.4267e-07" izz="8.1036e-06"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RR_hip_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_hip_aluminium.stl"/></geometry>
       <material name="aluminium"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_hip_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="Holder_HipYaw">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_hip_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_hip_0.stl"/></geometry>
     </collision>
     <collision name="Holder_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_hip_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_hip_1.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipYaw">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_hip_2.stl"/></geometry>
+    </collision>
+    <collision name="Spacer_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_hip_3.stl"/></geometry>
     </collision>
   </link>
   <link name="RR_thigh">
     <inertial>
-      <origin xyz="-0.0199038 -0.0185962 0.0272236" rpy="0 0 0"/>
-      <mass value="0.11726"/>
-      <inertia ixx="8.3916e-05" ixy="-2.0373e-05" ixz="3.2580e-05" iyy="8.3916e-05" iyz="3.2580e-05" izz="6.3529e-05"/>
+      <origin xyz="-0.0189992 -0.0195008 0.0272236" rpy="0 0 0"/>
+      <mass value="0.12481"/>
+      <inertia ixx="8.9071e-05" ixy="-1.9952e-05" ixz="3.4088e-05" iyy="8.9071e-05" iyz="3.4088e-05" izz="6.9105e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RR_thigh_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_thigh_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_thigh_plug.stl"/></geometry>
+      <material name="plug"/>
+    </visual>
+    <visual>
       <origin xyz="0 0 0" rpy="3.14159 -0.785398 -2.35619"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <visual>
       <origin xyz="-0.0385 -0.0385 0.0544472" rpy="0 0.785398 0.785398"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/sts3215.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/sts3215.stl"/></geometry>
       <material name="servo"/>
     </visual>
     <collision name="THIGH_STS3215_HipPitch">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_thigh_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_thigh_0.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Front">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_thigh_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_thigh_1.stl"/></geometry>
     </collision>
     <collision name="THIGH_Thigh_Back">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_thigh_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_thigh_2.stl"/></geometry>
     </collision>
     <collision name="THIGH_STS3215_Knee">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_thigh_3.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_thigh_3.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_HipPitch">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_thigh_4.stl"/></geometry>
+    </collision>
+    <collision name="THIGH_Cable_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_thigh_5.stl"/></geometry>
     </collision>
   </link>
   <link name="RR_shin">
     <inertial>
-      <origin xyz="-0.0147172 -0.0124724 -0.0717522" rpy="0 0 0"/>
-      <mass value="0.03421"/>
-      <inertia ixx="6.0166e-05" ixy="4.0948e-06" ixz="-1.0008e-05" iyy="6.0524e-05" iyz="-9.0503e-06" izz="1.7757e-05"/>
+      <origin xyz="-0.0113278 -0.0145833 -0.0683783" rpy="0 0 0"/>
+      <mass value="0.03688"/>
+      <inertia ixx="7.2223e-05" ixy="6.4598e-06" ixz="-1.5063e-05" iyy="7.4975e-05" iyz="-7.7873e-06" izz="2.4087e-05"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RR_shin_aluminium.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_shin_aluminium.stl"/></geometry>
       <material name="aluminium"/>
     </visual>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/visual/RR_shin_foot.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_shin_foot.stl"/></geometry>
       <material name="foot"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/visual/RR_shin_spacer.stl"/></geometry>
+      <material name="spacer"/>
     </visual>
     <collision name="SHIN_Shin_Horn">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_shin_0.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_shin_0.stl"/></geometry>
     </collision>
     <collision name="SHIN_Shin_Idler">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_shin_1.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_shin_1.stl"/></geometry>
     </collision>
     <collision name="SHIN_Foot">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry><mesh filename="package://twist_walker/meshes/collision/RR_shin_2.stl"/></geometry>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_shin_2.stl"/></geometry>
+    </collision>
+    <collision name="SHIN_Spacer_Knee">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://twist_2_0_description/meshes/collision/RR_shin_3.stl"/></geometry>
     </collision>
     <collision name="foot_tip">
       <origin xyz="-0.0254439 -0.0223142 -0.131914" rpy="0 0 0"/>
       <geometry><sphere radius="0.0075"/></geometry>
     </collision>
   </link>
-  <joint name="FL_hip_yaw" type="revolute">
-    <parent link="base_link"/>
-    <child link="FL_hip"/>
-    <origin xyz="0.0810867 0.0810867 0" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.8675" upper="1.8675" effort="1.91" velocity="4.71"/>
-    <dynamics damping="0.05" friction="0.02"/>
-  </joint>
-  <joint name="FL_hip_pitch" type="revolute">
-    <parent link="FL_hip"/>
-    <child link="FL_thigh"/>
-    <origin xyz="0.0282843 0.0282843 0" rpy="0 0 0"/>
-    <axis xyz="0.707107 -0.707107 0"/>
-    <limit lower="-2.6704" upper="1.0647" effort="1.91" velocity="4.71"/>
-    <dynamics damping="0.05" friction="0.02"/>
-  </joint>
-  <joint name="FL_knee" type="revolute">
-    <parent link="FL_thigh"/>
-    <child link="FL_shin"/>
-    <origin xyz="0.0385 0.0385 0.0544472" rpy="0 0 0"/>
-    <axis xyz="0.707107 -0.707107 0"/>
-    <limit lower="-0.8901" upper="3.1416" effort="1.91" velocity="4.71"/>
-    <dynamics damping="0.05" friction="0.02"/>
-  </joint>
-  <joint name="RR_hip_yaw" type="revolute">
-    <parent link="base_link"/>
-    <child link="RR_hip"/>
-    <origin xyz="-0.0810867 -0.0810867 0" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.8675" upper="1.8675" effort="1.91" velocity="4.71"/>
-    <dynamics damping="0.05" friction="0.02"/>
-  </joint>
-  <joint name="RR_hip_pitch" type="revolute">
-    <parent link="RR_hip"/>
-    <child link="RR_thigh"/>
-    <origin xyz="-0.0282843 -0.0282843 0" rpy="0 0 0"/>
-    <axis xyz="-0.707107 0.707107 0"/>
-    <limit lower="-2.6704" upper="1.0647" effort="1.91" velocity="4.71"/>
-    <dynamics damping="0.05" friction="0.02"/>
-  </joint>
-  <joint name="RR_knee" type="revolute">
-    <parent link="RR_thigh"/>
-    <child link="RR_shin"/>
-    <origin xyz="-0.0385 -0.0385 0.0544472" rpy="0 0 0"/>
-    <axis xyz="-0.707107 0.707107 0"/>
-    <limit lower="-0.8901" upper="3.1416" effort="1.91" velocity="4.71"/>
-    <dynamics damping="0.05" friction="0.02"/>
-  </joint>
   <joint name="RL_hip_yaw" type="revolute">
     <parent link="base_link"/>
     <child link="RL_hip"/>
     <origin xyz="-0.0810867 0.0810867 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.8675" upper="1.8675" effort="1.91" velocity="4.71"/>
+    <limit lower="-1.8675" upper="1.7977" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="1.5708" k_position="20" k_velocity="0.5"/>
     <dynamics damping="0.05" friction="0.02"/>
   </joint>
   <joint name="RL_hip_pitch" type="revolute">
@@ -518,7 +637,8 @@
     <child link="RL_thigh"/>
     <origin xyz="-0.0282843 0.0282843 0" rpy="0 0 0"/>
     <axis xyz="0.707107 0.707107 0"/>
-    <limit lower="-2.6704" upper="1.0647" effort="1.91" velocity="4.71"/>
+    <limit lower="-2.1468" upper="1.0647" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="0.8727" k_position="20" k_velocity="0.5"/>
     <dynamics damping="0.05" friction="0.02"/>
   </joint>
   <joint name="RL_knee" type="revolute">
@@ -526,15 +646,17 @@
     <child link="RL_shin"/>
     <origin xyz="-0.0385 0.0385 0.0544472" rpy="0 0 0"/>
     <axis xyz="0.707107 0.707107 0"/>
-    <limit lower="-0.8901" upper="3.1416" effort="1.91" velocity="4.71"/>
+    <limit lower="-0.8552" upper="3.1416" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-0.3491" soft_upper_limit="2.6180" k_position="20" k_velocity="0.5"/>
     <dynamics damping="0.05" friction="0.02"/>
   </joint>
   <joint name="FR_hip_yaw" type="revolute">
     <parent link="base_link"/>
     <child link="FR_hip"/>
-    <origin xyz="0.0809099 -0.0809099 0" rpy="0 0 0"/>
+    <origin xyz="0.0810867 -0.0810867 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.8675" upper="1.8675" effort="1.91" velocity="4.71"/>
+    <limit lower="-1.8675" upper="1.7977" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="1.5708" k_position="20" k_velocity="0.5"/>
     <dynamics damping="0.05" friction="0.02"/>
   </joint>
   <joint name="FR_hip_pitch" type="revolute">
@@ -542,7 +664,8 @@
     <child link="FR_thigh"/>
     <origin xyz="0.0282843 -0.0282843 0" rpy="0 0 0"/>
     <axis xyz="-0.707107 -0.707107 0"/>
-    <limit lower="-2.6704" upper="1.0647" effort="1.91" velocity="4.71"/>
+    <limit lower="-2.1468" upper="1.0647" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="0.8727" k_position="20" k_velocity="0.5"/>
     <dynamics damping="0.05" friction="0.02"/>
   </joint>
   <joint name="FR_knee" type="revolute">
@@ -550,10 +673,71 @@
     <child link="FR_shin"/>
     <origin xyz="0.0385 -0.0385 0.0544472" rpy="0 0 0"/>
     <axis xyz="-0.707107 -0.707107 0"/>
-    <limit lower="-0.8901" upper="3.1416" effort="1.91" velocity="4.71"/>
+    <limit lower="-0.8552" upper="3.1416" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-0.3491" soft_upper_limit="2.6180" k_position="20" k_velocity="0.5"/>
     <dynamics damping="0.05" friction="0.02"/>
   </joint>
-  <gazebo reference="FL_shin">
+  <joint name="RR_hip_yaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="RR_hip"/>
+    <origin xyz="-0.0810867 -0.0810867 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.8675" upper="1.7977" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="1.5708" k_position="20" k_velocity="0.5"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+  <joint name="RR_hip_pitch" type="revolute">
+    <parent link="RR_hip"/>
+    <child link="RR_thigh"/>
+    <origin xyz="-0.0282843 -0.0282843 0" rpy="0 0 0"/>
+    <axis xyz="-0.707107 0.707107 0"/>
+    <limit lower="-2.1468" upper="1.0647" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="0.8727" k_position="20" k_velocity="0.5"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+  <joint name="RR_knee" type="revolute">
+    <parent link="RR_thigh"/>
+    <child link="RR_shin"/>
+    <origin xyz="-0.0385 -0.0385 0.0544472" rpy="0 0 0"/>
+    <axis xyz="-0.707107 0.707107 0"/>
+    <limit lower="-0.8552" upper="3.1416" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-0.3491" soft_upper_limit="2.6180" k_position="20" k_velocity="0.5"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+  <joint name="FL_hip_yaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="FL_hip"/>
+    <origin xyz="0.0809099 0.0809099 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.8675" upper="1.7977" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="1.5708" k_position="20" k_velocity="0.5"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+  <joint name="FL_hip_pitch" type="revolute">
+    <parent link="FL_hip"/>
+    <child link="FL_thigh"/>
+    <origin xyz="0.0282843 0.0282843 0" rpy="0 0 0"/>
+    <axis xyz="0.707107 -0.707107 0"/>
+    <limit lower="-2.1468" upper="1.0647" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-1.5708" soft_upper_limit="0.8727" k_position="20" k_velocity="0.5"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+  <joint name="FL_knee" type="revolute">
+    <parent link="FL_thigh"/>
+    <child link="FL_shin"/>
+    <origin xyz="0.0385 0.0385 0.0544472" rpy="0 0 0"/>
+    <axis xyz="0.707107 -0.707107 0"/>
+    <limit lower="-0.8552" upper="3.1416" effort="1.91" velocity="4.71"/>
+    <safety_controller soft_lower_limit="-0.3491" soft_upper_limit="2.6180" k_position="20" k_velocity="0.5"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+  <gazebo reference="RL_shin">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>100000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+  <gazebo reference="FR_shin">
     <mu1>1.0</mu1>
     <mu2>1.0</mu2>
     <kp>100000.0</kp>
@@ -565,13 +749,7 @@
     <kp>100000.0</kp>
     <kd>10.0</kd>
   </gazebo>
-  <gazebo reference="RL_shin">
-    <mu1>1.0</mu1>
-    <mu2>1.0</mu2>
-    <kp>100000.0</kp>
-    <kd>10.0</kd>
-  </gazebo>
-  <gazebo reference="FR_shin">
+  <gazebo reference="FL_shin">
     <mu1>1.0</mu1>
     <mu2>1.0</mu2>
     <kp>100000.0</kp>

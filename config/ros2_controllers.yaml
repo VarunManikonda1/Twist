@@ -1,0 +1,32 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    leg_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+leg_controller:
+  ros__parameters:
+    joints:
+      - RL_hip_yaw
+      - RL_hip_pitch
+      - RL_knee
+      - FR_hip_yaw
+      - FR_hip_pitch
+      - FR_knee
+      - RR_hip_yaw
+      - RR_hip_pitch
+      - RR_knee
+      - FL_hip_yaw
+      - FL_hip_pitch
+      - FL_knee
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+
+# gz_ros2_control turns position commands into joint velocity commands:
+#   v = gain * (q_cmd - q) * update_rate. The default gain (0.1) lags the gait by ~0.1 s and
+# shrinks every step, so make the simulated servos track like the real position servos.
+gz_ros_control:
+  ros__parameters:
+    position_proportional_gain: 1.0

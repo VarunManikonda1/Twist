@@ -1,0 +1,32 @@
+# Shared by cmd_vel_gait and walk_gait. All gait parameters can be changed live with
+# `ros2 param set /cmd_vel_gait <name> <value>`.
+/**:
+  ros__parameters:
+    publish_rate: 50.0
+    stand_duration: 2.0       # s, smooth move from spawn pose to stand
+    # s without /cmd_vel before stopping; 0 = keep the last command until a new one arrives
+    # (needed for teleop_twist_keyboard, which publishes only when a key is pressed).
+    cmd_timeout: 0.0
+    drive_mode: omni          # omni | ackermann (ackermann ignores linear.y)
+
+    gait_style: trot          # trot | crawl
+    cycle_period: 0.6         # s per full gait cycle (crawl: ~1.2)
+    swing_fraction: 0.45      # per leg (crawl caps it at 0.22)
+    step_height: 0.025        # m foot clearance
+    body_height: 0.14         # m, base_link above the foot centres
+    foot_x: 0.14              # m, nominal stance footprint (half-length)
+    foot_y: 0.14              # m, nominal stance footprint (half-width)
+    max_foot_offset: 0.05     # m, foot excursion limit around its nominal spot
+    max_swing_speed: 0.3      # m/s, peak swing-foot speed (commands are scaled to respect it)
+
+    max_vx: 0.15              # m/s
+    max_vy: 0.12              # m/s
+    max_wz: 0.8               # rad/s
+    max_lin_accel: 0.6        # m/s^2
+    max_ang_accel: 3.0        # rad/s^2
+
+walk_gait:
+  ros__parameters:
+    walk_vx: 0.1
+    walk_vy: 0.0
+    walk_wz: 0.0

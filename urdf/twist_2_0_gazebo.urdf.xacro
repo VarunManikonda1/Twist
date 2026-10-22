@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!-- Gazebo (gz-sim Harmonic) + ros2_control wrapper around twist_2_0.urdf -->
+<robot name="twist_2_0" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find twist_2_0_description)/urdf/twist_2_0.urdf"/>
+  <ros2_control name="TwistGzSystem" type="system">
+    <hardware><plugin>gz_ros2_control/GazeboSimSystem</plugin></hardware>
+    <joint name="RL_hip_yaw">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="RL_hip_pitch">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">0.8727</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="RL_knee">
+      <command_interface name="position">
+        <param name="min">-0.3491</param>
+        <param name="max">2.6180</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="FR_hip_yaw">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="FR_hip_pitch">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">0.8727</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="FR_knee">
+      <command_interface name="position">
+        <param name="min">-0.3491</param>
+        <param name="max">2.6180</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="RR_hip_yaw">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="RR_hip_pitch">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">0.8727</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="RR_knee">
+      <command_interface name="position">
+        <param name="min">-0.3491</param>
+        <param name="max">2.6180</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="FL_hip_yaw">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="FL_hip_pitch">
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">0.8727</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="FL_knee">
+      <command_interface name="position">
+        <param name="min">-0.3491</param>
+        <param name="max">2.6180</param>
+      </command_interface>
+      <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find twist_2_0_description)/config/ros2_controllers.yaml</parameters>
+    </plugin>
+    <!-- Ground-truth base pose/twist on gz topic /model/twist_2_0/odometry (bridged to /odom). -->
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <dimensions>3</dimensions>
+      <odom_publish_frequency>50</odom_publish_frequency>
+    </plugin>
+  </gazebo>
+</robot>

@@ -1,0 +1,15 @@
+teleop_keyboard:
+  ros__parameters:
+    drive_mode: omni
+    linear_speed: 0.10
+    angular_speed: 0.60
+    ackermann_turn_gain: 0.85
+    publish_rate: 20.0
+
+teleop_ui:
+  ros__parameters:
+    drive_mode: omni
+    linear_speed: 0.10
+    angular_speed: 0.60
+    ackermann_turn_gain: 0.85
+    publish_rate: 20.0
