@@ -1,0 +1,16 @@
+ID  joint          direction  offset
+1   FL_hip_yaw             1       0
+2   FL_hip_pitch           1       0
+3   FL_knee                1       0
+4   FR_hip_yaw             1       0
+5   FR_hip_pitch           1       0
+6   FR_knee                1       0
+7   RL_hip_yaw             1       0
+8   RL_hip_pitch           1       0
+9   RL_knee                1       0
+10  RR_hip_yaw             1       0
+11  RR_hip_pitch           1       0
+12  RR_knee                1       0
+
+ticks = 2048 + direction * rad * 4096/(2*pi) + offset
+servo deg = ticks * 360/4096   (2048 ticks = 180 deg = joint at 0 in the sim)
