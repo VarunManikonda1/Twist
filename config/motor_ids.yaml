@@ -1,0 +1,28 @@
+# Feetech STS3215 servo mapping used by record_walk.
+# Servo position = center + direction * angle_rad * 4096 / (2*pi) + offset
+#   center:    servo tick that matches joint angle 0 in the URDF (2048 = middle of 0..4095)
+#   direction: +1 or -1, flip it if a servo turns the wrong way on the real robot
+#   offset:    extra ticks to correct how the horn was mounted on each servo
+# Check these on the hardware before playing a recording.
+record_walk:
+  ros__parameters:
+    use_sim_time: true
+    ticks_per_rev: 4096
+    center: 2048
+    #            ID:   1     2     3     4     5     6     7     8     9    10    11    12
+    joints: [FL_hip_yaw, FL_hip_pitch, FL_knee,
+             FR_hip_yaw, FR_hip_pitch, FR_knee,
+             RL_hip_yaw, RL_hip_pitch, RL_knee,
+             RR_hip_yaw, RR_hip_pitch, RR_knee]
+    ids:       [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    direction: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    offset:    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    # Walk script: stand -> forward -> stop -> backward -> stop
+    speed: 0.08          # m/s (gait clamps to max_vx = 0.12)
+    stand_time: 3.0      # s, recorded standing still before walking
+    forward_time: 5.0    # s
+    pause_time: 1.5      # s, standing still between and after moves
+    backward_time: 5.0   # s
+    settle_time: 4.0     # s after the first gait command before recording starts
+    out_dir: "~/motor_recordings"

@@ -150,13 +150,68 @@ ros2 launch twist_walker display.launch.py
 
 In RViz, set **Fixed Frame** to `base_link`, then **Add → RobotModel** and set **Description Topic** to `/robot_description`. Use the slider window to move each joint.
 
-## 7. Useful checks
+## 7. Record motor angles for the hardware
+
+`record_walk` drives the robot by itself (stand 3 s, forward 5 s, stop, backward 5 s, stop) and saves
+the angle of every Feetech STS3215 servo at 50 Hz. Start the simulation first (section 6, Terminal 1),
+wait until the robot stands, then in a second terminal:
+
+```bash
+source ~/twist_ws/install/setup.bash
+cd ~/twist_ws
+ros2 run twist_walker record_walk --ros-args \
+  --params-file install/twist_walker/share/twist_walker/config/motor_ids.yaml
+```
+
+Don't send `/cmd_vel` (teleop) while it runs. It stops by itself and writes to `~/motor_recordings/`:
+
+| File | Contents |
+|---|---|
+| `walk_<time>_forward_deg.csv` | Forward part only: `time_s, ID1..ID12` in servo degrees (0-360, 180 = middle) |
+| `walk_<time>_backward_deg.csv` | Backward part only, same format |
+| `walk_<time>_deg.csv` | Whole run in servo degrees, with a `phase` column |
+| `walk_<time>_ticks.csv` | Whole run in STS3215 steps (0-4095, 2048 = middle), with a `phase` column |
+| `walk_<time>_ids.txt` | Which ID is which joint, and the direction/offset used |
+
+Servo IDs:
+
+| Leg | Hip yaw | Hip pitch | Knee |
+|---|---|---|---|
+| Front left (FL) | 1 | 2 | 3 |
+| Front right (FR) | 4 | 5 | 6 |
+| Rear left (RL) | 7 | 8 | 9 |
+| Rear right (RR) | 10 | 11 | 12 |
+
+View the newest recording:
+
+```bash
+column -s, -t < $(ls -t ~/motor_recordings/*_forward_deg.csv | head -1) | less
+column -s, -t < $(ls -t ~/motor_recordings/*_backward_deg.csv | head -1) | less
+cat $(ls -t ~/motor_recordings/*_ids.txt | head -1)
+```
+
+Conversion: `ticks = 2048 + direction * angle_rad * 4096/(2*pi) + offset`, `servo deg = ticks * 360/4096`.
+IDs, directions, offsets and the walk timing are set in `config/motor_ids.yaml`.
+
+**Before playing a recording on the robot:** calibrate it. Put the real robot in the URDF zero pose
+(all sliders at 0 in `display.launch.py`), read each servo, and set `offset = reading - 2048`. If a servo
+turns the opposite way to the sim joint, set its `direction` to `-1`. Rebuild and record again, then test
+with the robot held in the air, moving slowly to the first row before starting playback.
+
+To watch all 12 motors live (command, position, velocity, effort) while driving with teleop:
+
+```bash
+ros2 run twist_walker motor_logger      # also saves ~/motor_log_<time>.csv
+```
+
+## 8. Useful checks
 
 ```bash
 ros2 control list_controllers                 # joint_state_broadcaster + leg_controller should be "active"
 ros2 topic echo /joint_states --once
 ros2 topic echo /leg_controller/commands --once
 ros2 topic hz /leg_controller/commands        # ~50 Hz
+gz model -m twist_2_0 -p                      # robot position in Gazebo (x grows when walking forward)
 ```
 
 ## Tuning
@@ -182,7 +237,8 @@ The controller setup (joint order and controller types) is in `config/controller
 twist_walker/
 ├── config/
 │   ├── controllers.yaml       # ros2_control: joint_state_broadcaster + leg_controller
-│   └── gait.yaml              # gait_node parameters
+│   ├── gait.yaml              # gait_node parameters
+│   └── motor_ids.yaml         # record_walk: servo IDs, direction, offset, walk timing
 ├── launch/
 │   ├── sim.launch.py          # Gazebo + spawn + controllers + gait
 │   └── display.launch.py      # RViz + joint sliders
@@ -193,7 +249,9 @@ twist_walker/
 ├── twist_walker/
 │   ├── gait_node.py           # ROS node: /cmd_vel → gait → IK → commands
 │   ├── gait.py                # trot foot-trajectory planner
-│   └── kinematics.py          # leg chains + IK built from the URDF
+│   ├── kinematics.py          # leg chains + IK built from the URDF
+│   ├── record_walk.py         # drive forward/backward and save servo angles to CSV
+│   └── motor_logger.py        # live table + CSV of all joint commands and states
 ├── package.xml
 └── setup.py
 ```

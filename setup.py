@@ -35,6 +35,8 @@ setup(
     entry_points={
         "console_scripts": [
             "gait_node = twist_walker.gait_node:main",
+            "motor_logger = twist_walker.motor_logger:main",
+            "record_walk = twist_walker.record_walk:main",
         ],
     },
 )
